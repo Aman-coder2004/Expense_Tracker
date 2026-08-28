@@ -1,0 +1,10 @@
+venv/
+expense_tracker.db
+__pycache__/
+*.pyc
+*.pyo
+.env
+.DS_Store
+.claude/plans/
+.ipynb_checkpoints/
+Screenshot 2026-03-25 at 12.36.20 AM.png

@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Spendly — Track Every Rupee{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Free to use &middot; No credit card needed
+        </div>
+        <h1 class="hero-title">
+            Track every rupee.<br>
+            <em>Know where it goes.</em>
+        </h1>
+        <p class="hero-subtitle">
+            Spendly helps you log expenses, spot patterns, and stay
+            on budget &mdash; without the spreadsheet headache.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('register') }}" class="btn-primary">Create free account</a>
+            <a href="#" id="open-how-modal" class="btn-secondary">See how it works</a>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="dash-card">
+            <div class="dash-chrome">
+                <span class="dash-dot dash-dot-red"></span>
+                <span class="dash-dot dash-dot-yellow"></span>
+                <span class="dash-dot dash-dot-green"></span>
+            </div>
+            <div class="dash-body">
+                <div class="dash-stats">
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">This month</div>
+                        <div class="dash-stat-value">₹18,240</div>
+                        <div class="dash-stat-meta dash-stat-meta-up">+12% vs last</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Budget left</div>
+                        <div class="dash-stat-value">₹6,760</div>
+                        <div class="dash-stat-meta dash-stat-meta-good">43% remaining</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Transactions</div>
+                        <div class="dash-stat-value">34</div>
+                        <div class="dash-stat-meta">this month</div>
+                    </div>
+                </div>
+                <div class="dash-bars">
+                    <div class="dash-bar-row">
+                        <span class="dash-bar-name">Food</span>
+                        <div class="dash-bar-track">
+                            <div class="dash-bar-fill dash-bar-orange" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="dash-bar-row">
+                        <span class="dash-bar-name">Travel</span>
+                        <div class="dash-bar-track">
+                            <div class="dash-bar-fill dash-bar-blue" style="width: 55%"></div>
+                        </div>
+                    </div>
+                    <div class="dash-bar-row">
+                        <span class="dash-bar-name">Bills</span>
+                        <div class="dash-bar-track">
+                            <div class="dash-bar-fill dash-bar-purple" style="width: 45%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="features-inner">
+        <div class="feature-card">
+            <div class="feature-icon">₹</div>
+            <h3 class="feature-title">Log expenses instantly</h3>
+            <p class="feature-body">Add any expense in seconds. Category, amount, date, description — all in one simple form.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">◎</div>
+            <h3 class="feature-title">Understand your patterns</h3>
+            <p class="feature-body">See exactly where your money goes with category breakdowns and monthly summaries.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">◷</div>
+            <h3 class="feature-title">Filter by time period</h3>
+            <p class="feature-body">View your spending for any date range — last week, last month, or a custom period.</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="cta-inner">
+        <h2 class="cta-title">Ready to take control?</h2>
+        <p class="cta-body">Join thousands of people who track their expenses with Spendly.</p>
+        <a href="{{ url_for('register') }}" class="btn-primary">Create free account</a>
+    </div>
+</section>
+
+<div class="modal-backdrop" id="how-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="How Spendly works">
+        <button class="modal-close" id="close-how-modal" type="button" aria-label="Close">&times;</button>
+        <div class="modal-video">
+            <iframe
+                id="how-modal-video"
+                data-src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                src="about:blank"
+                title="How Spendly works"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    (function () {
+        var openBtn = document.getElementById('open-how-modal');
+        var closeBtn = document.getElementById('close-how-modal');
+        var backdrop = document.getElementById('how-modal');
+        var video = document.getElementById('how-modal-video');
+        if (!openBtn || !closeBtn || !backdrop || !video) return;
+
+        function openModal() {
+            if (video.src === 'about:blank') {
+                video.src = video.getAttribute('data-src');
+            }
+            backdrop.classList.add('is-open');
+            backdrop.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            backdrop.classList.remove('is-open');
+            backdrop.setAttribute('aria-hidden', 'true');
+            video.src = 'about:blank';
+            document.body.style.overflow = '';
+        }
+
+        openBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            openModal();
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+
+        backdrop.addEventListener('click', function (e) {
+            if (e.target === backdrop) {
+                closeModal();
+            }
+        });
+    })();
+</script>
+{% endblock %}
