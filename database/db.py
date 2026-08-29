@@ -56,6 +56,25 @@ def init_db() -> None:
         conn.close()
 
 
+def create_user(name: str, email: str, password_hash: str) -> None:
+    """Insert a new user into the database.
+
+    Raises sqlite3.IntegrityError if the email is already registered.
+    """
+    conn = get_db()
+    try:
+        conn.execute(
+            """
+            INSERT INTO users (name, email, password_hash)
+            VALUES (?, ?, ?)
+            """,
+            (name, email, password_hash),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
 def seed_db() -> None:
     """Insert demo user + sample expenses exactly once.
 
