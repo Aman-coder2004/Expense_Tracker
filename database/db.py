@@ -75,6 +75,18 @@ def create_user(name: str, email: str, password_hash: str) -> None:
         conn.close()
 
 
+def get_user_by_email(email: str):
+    """Retrieve a user record by email."""
+    conn = get_db()
+    try:
+        return conn.execute(
+            "SELECT * FROM users WHERE email = ?",
+            (email,)
+        ).fetchone()
+    finally:
+        conn.close()
+
+
 def seed_db() -> None:
     """Insert demo user + sample expenses exactly once.
 
