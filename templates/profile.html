@@ -2,8 +2,19 @@
 
 {% block title %}Your Profile — Spendly{% endblock %}
 
+{% extends "base.html" %}
+
 {% block head %}
 <style>
+    /* Business-oriented page background:
+       soft paper base with a subtle warm gradient and a thin
+       accent rule under the header, instead of a flat fill. */
+    body {
+        background:
+            linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%);
+        background-attachment: fixed;
+    }
+
     .profile-container {
         max-width: var(--max-width);
         margin: 3rem auto;
@@ -16,6 +27,8 @@
     .profile-header {
         grid-column: 1 / -1;
         margin-bottom: 1rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid var(--border-soft);
     }
 
     .profile-header h1 {
@@ -213,6 +226,12 @@
                         <div style="font-size: 0.85rem; color: var(--ink-muted); width: 40px; text-align: right;">{{ cat.percentage }}%</div>
                     </div>
                     {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
                 </div>
             </div>
         </section>

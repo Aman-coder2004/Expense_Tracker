@@ -98,6 +98,18 @@ def get_user_by_email(email: str):
         conn.close()
 
 
+def get_user_by_id(user_id: int):
+    """Retrieve a user record by ID."""
+    conn = get_db()
+    try:
+        return conn.execute(
+            "SELECT * FROM users WHERE id = ?",
+            (user_id,)
+        ).fetchone()
+    finally:
+        conn.close()
+
+
 def seed_db() -> None:
     """Insert demo user + sample expenses exactly once.
 
