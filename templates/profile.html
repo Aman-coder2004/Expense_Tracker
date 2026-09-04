@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Your Profile — Spendly{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <!-- User Header -->
+    <header class="profile-header">
+        <div class="profile-user-info">
+            <h1>{{ user['name'] }}</h1>
+            <p>{{ user['email'] }}</p>
+        </div>
+        <div class="profile-member-since">
+            Member since {{ user['created_at'][:10] }}
+        </div>
+    </header>
+
+    <!-- Summary Stats -->
+    <section>
+        <h2 class="profile-section-title">Financial Snapshot</h2>
+        <div class="dash-stats">
+            <div class="dash-stat">
+                <div class="dash-stat-label">Total Spent</div>
+                <div class="dash-stat-value">₹18,240</div>
+                <div class="dash-stat-meta dash-stat-meta-up">+12% vs last month</div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-stat-label">Transactions</div>
+                <div class="dash-stat-value">34</div>
+                <div class="dash-stat-meta">this month</div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-stat-label">Top Category</div>
+                <div class="dash-stat-value">Food</div>
+                <div class="dash-stat-meta dash-stat-meta-good">most frequent</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transaction History & Breakdown Grid -->
+    <div class="profile-grid">
+        <!-- Transaction History -->
+        <section>
+            <h2 class="profile-section-title">Recent Transactions</h2>
+            <table class="transaction-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th style="text-align: right;">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-09-01</td>
+                        <td class="category">Food</td>
+                        <td>Lunch at cafe</td>
+                        <td class="amount">₹250.00</td>
+                    </tr>
+                    <tr>
+                        <td>2026-08-30</td>
+                        <td class="category">Transport</td>
+                        <td>Metro card top-up</td>
+                        <td class="amount">₹80.00</td>
+                    </tr>
+                    <tr>
+                        <td>2026-08-25</td>
+                        <td class="category">Bills</td>
+                        <td>Electricity bill</td>
+                        <td class="amount">₹1,200.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Category Breakdown -->
+        <section>
+            <h2 class="profile-section-title">Breakdown</h2>
+            <div class="dash-bars">
+                <div class="dash-bar-row">
+                    <span class="dash-bar-name">Food</span>
+                    <div class="dash-bar-track">
+                        <div class="dash-bar-fill dash-bar-orange" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="dash-bar-row">
+                    <span class="dash-bar-name">Travel</span>
+                    <div class="dash-bar-track">
+                        <div class="dash-bar-fill dash-bar-blue" style="width: 55%"></div>
+                    </div>
+                </div>
+                <div class="dash-bar-row">
+                    <span class="dash-bar-name">Bills</span>
+                    <div class="dash-bar-track">
+                        <div class="dash-bar-fill dash-bar-purple" style="width: 45%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
