@@ -2,46 +2,195 @@
 
 {% block title %}Your Profile — Spendly{% endblock %}
 
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    /* Business-oriented page background:
+       soft paper base with a subtle warm gradient and a thin
+       accent rule under the header, instead of a flat fill. */
+    body {
+        background:
+            linear-gradient(180deg, var(--paper) 0%, var(--paper-warm) 100%);
+        background-attachment: fixed;
+    }
+
+    .profile-container {
+        max-width: var(--max-width);
+        margin: 3rem auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 2rem;
+    }
+
+    .profile-header {
+        grid-column: 1 / -1;
+        margin-bottom: 1rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid var(--border-soft);
+    }
+
+    .profile-header h1 {
+        font-family: var(--font-display);
+        font-size: 2.5rem;
+        color: var(--ink);
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .user-card {
+        background: var(--paper-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        background: var(--accent-light);
+        color: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-size: 2rem;
+        margin: 0 auto 1.5rem;
+        font-weight: bold;
+        border: 3px solid var(--paper);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .user-name {
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        color: var(--ink);
+        margin-bottom: 0.25rem;
+    }
+
+    .user-email {
+        font-size: 0.9rem;
+        color: var(--ink-muted);
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-main {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .section-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--ink);
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid var(--border-soft);
+        padding-bottom: 0.5rem;
+    }
+
+    .transaction-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--paper-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+    }
+
+    .transaction-table th {
+        text-align: left;
+        background: var(--paper-warm);
+        padding: 1rem;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        color: var(--ink-muted);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .transaction-table td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-soft);
+        font-size: 0.95rem;
+        color: var(--ink-soft);
+    }
+
+    .transaction-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .amount-col {
+        text-align: right;
+        font-family: var(--font-display);
+        font-weight: 600;
+    }
+
+    .category-pill {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: var(--border-soft);
+        color: var(--ink-muted);
+    }
+
+    @media (max-width: 900px) {
+        .profile-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="profile-container">
-    <!-- User Header -->
     <header class="profile-header">
-        <div class="profile-user-info">
-            <h1>{{ user['name'] }}</h1>
-            <p>{{ user['email'] }}</p>
-        </div>
-        <div class="profile-member-since">
-            Member since {{ user['created_at'][:10] }}
-        </div>
+        <h1>Your Profile</h1>
+        <p style="color: var(--ink-muted);">Manage your account and track your spending habits.</p>
     </header>
 
-    <!-- Summary Stats -->
-    <section>
-        <h2 class="profile-section-title">Financial Snapshot</h2>
-        <div class="dash-stats">
-            <div class="dash-stat">
-                <div class="dash-stat-label">Total Spent</div>
-                <div class="dash-stat-value">₹18,240</div>
-                <div class="dash-stat-meta dash-stat-meta-up">+12% vs last month</div>
-            </div>
-            <div class="dash-stat">
-                <div class="dash-stat-label">Transactions</div>
-                <div class="dash-stat-value">34</div>
-                <div class="dash-stat-meta">this month</div>
-            </div>
-            <div class="dash-stat">
-                <div class="dash-stat-label">Top Category</div>
-                <div class="dash-stat-value">Food</div>
-                <div class="dash-stat-meta dash-stat-meta-good">most frequent</div>
+    <aside class="profile-sidebar">
+        <div class="user-card">
+            <div class="user-avatar">{{ user['name'][0] | upper }}</div>
+            <div class="user-name">{{ user['name'] }}</div>
+            <div class="user-email">{{ user['email'] }}</div>
+            <a href="{{ url_for('logout') }}" class="btn-ghost" style="width: 100%; text-align: center; display: block;">Sign Out</a>
+        </div>
+
+        <div class="dash-card">
+            <div class="dash-body">
+                <div style="font-weight: 600; margin-bottom: 1rem; color: var(--ink);">Spending Summary</div>
+                <div class="dash-stats" style="grid-template-columns: 1fr;">
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Total Spent</div>
+                        <div class="dash-stat-value">{{ stats['total_spent'] }}</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Transactions</div>
+                        <div class="dash-stat-value">{{ stats['transaction_count'] }}</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="dash-stat-label">Top Category</div>
+                        <div class="dash-stat-value">{{ stats['top_category'] }}</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </aside>
 
-    <!-- Transaction History & Breakdown Grid -->
-    <div class="profile-grid">
-        <!-- Transaction History -->
+    <div class="profile-main">
         <section>
-            <h2 class="profile-section-title">Recent Transactions</h2>
+            <h2 class="section-title">Recent Transactions</h2>
             <table class="transaction-table">
                 <thead>
                     <tr>
@@ -52,49 +201,37 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for tx in transactions %}
                     <tr>
-                        <td>2026-09-01</td>
-                        <td class="category">Food</td>
-                        <td>Lunch at cafe</td>
-                        <td class="amount">₹250.00</td>
+                        <td>{{ tx.date }}</td>
+                        <td><span class="category-pill">{{ tx.category }}</span></td>
+                        <td>{{ tx.description }}</td>
+                        <td class="amount-col">₹{{ tx.amount }}</td>
                     </tr>
-                    <tr>
-                        <td>2026-08-30</td>
-                        <td class="category">Transport</td>
-                        <td>Metro card top-up</td>
-                        <td class="amount">₹80.00</td>
-                    </tr>
-                    <tr>
-                        <td>2026-08-25</td>
-                        <td class="category">Bills</td>
-                        <td>Electricity bill</td>
-                        <td class="amount">₹1,200.00</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </section>
 
-        <!-- Category Breakdown -->
         <section>
-            <h2 class="profile-section-title">Breakdown</h2>
-            <div class="dash-bars">
-                <div class="dash-bar-row">
-                    <span class="dash-bar-name">Food</span>
-                    <div class="dash-bar-track">
-                        <div class="dash-bar-fill dash-bar-orange" style="width: 80%"></div>
+            <h2 class="section-title">Category Breakdown</h2>
+            <div class="dash-card">
+                <div class="dash-body">
+                    {% for cat in categories %}
+                    <div class="dash-bar-row" style="margin-bottom: 1rem;">
+                        <div class="dash-bar-name">{{ cat.category }}</div>
+                        <div class="dash-bar-track">
+                            <div class="dash-bar-fill" style="width: {{ cat.percentage }}%; background: {{ cat.color }};"></div>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--ink-muted); width: 40px; text-align: right;">{{ cat.percentage }}%</div>
                     </div>
+                    {% endfor %}
                 </div>
-                <div class="dash-bar-row">
-                    <span class="dash-bar-name">Travel</span>
-                    <div class="dash-bar-track">
-                        <div class="dash-bar-fill dash-bar-blue" style="width: 55%"></div>
-                    </div>
-                </div>
-                <div class="dash-bar-row">
-                    <span class="dash-bar-name">Bills</span>
-                    <div class="dash-bar-track">
-                        <div class="dash-bar-fill dash-bar-purple" style="width: 45%"></div>
-                    </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
                 </div>
             </div>
         </section>
